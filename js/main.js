@@ -68,8 +68,17 @@ const add = () => {
     protein: parseInt(protein.value)
   }
   list.push(newItem)
-  console.log(list)
   cleanInputs()
+}
+
+const updateToptals = () => {
+  let calories = 0, carbs = 0, protein = 0
+
+  list.map(item => {
+    calories += item.calories
+    carbs += item.carbs
+    protein += item.protein
+  })
 }
 
 const cleanInputs = () => {
