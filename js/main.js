@@ -1,89 +1,103 @@
-const compose = (...functions) => data =>
-  functions.reduceRight((value, func) => func(value), data)
+const compose = (...functions) => (data) =>
+  functions.reduceRight((value, func) => func(value), data);
 
-const attrsToString = (obj = {}) => {
-  const keys = Object.keys(obj)
-  const attrs = []
+const attrsToString = (obj = {}) =>
+  Object.keys(obj)
+    .map((key) => `${key}="${obj[key]}"`)
+    .join("");
 
-  for(let i=0; i < keys.length; i++) {
-    let attr = keys[i]
-    attrs.push(`${attr}="${obj[attr]}"`)
-    console.log(obj[attr])
-  }
-  
-  const strig = attrs.join('')
+const tagAtrrs = ({ tag, attrs }) => (content = "") =>
+  `<${tag} ${attrs && attrsToString(attrs)}>${content}</${tag}>`;
 
-  return strig 
-}
-
-const tagAttrs = obj => (content = "") => 
-  `<${obj.tag}${obj.attrs ? ' ' : ''}${attrsToString(obj.attrs)}>${content}</${obj.tag}>`
-
-const tag = t => {
-  if(typeof t === 'string') {
-    tagAttrs({tag: t})
+const tag = (t) => {
+  if (typeof t === "string") {
+    return tagAtrrs({ tag: t });
   } else {
-    tagAttrs(t)
+    return tagAtrrs(t);
   }
-}
+};
 
-const tableRowtag = tag('tr')
-const tableRow = items => tableRowtag(tableCells(items))
-const tableCell = tag('td')
-const tableCells = items => item.map(tableCell).join('')
+const tableRowTag = tag("tr");
+// const tableRow = (items) => tableRowTag(tableCells(items));
+const tableRow = (items) => compose(tableRowTag, tableCells)(items);
 
-let description = document.getElementById('description')
-let calories = document.getElementById('calories')
-let carbs = document.getElementById('carbs')
-let protein = document.getElementById('protein')
-let list = []
+const tableCell = tag("td");
+const tableCells = (items) => items.map(tableCell).join("");
 
-function removeClassDescription() {
-  description.classList.remove("is-invalid")
-}
-function removeClassCalories() {
-  calories.classList.remove("is-invalid")
-}
-function removeClassCarbs() {
-  carbs.classList.remove("is-invalid")
-}
-function removeClassProtein() {
-  protein.classList.remove("is-invalid")
-}
+let description = document.getElementById("description");
+let calories = document.getElementById("calories");
+let carbs = document.getElementById("carbs");
+let protein = document.getElementById("protein");
+/* let $inputs = document.querySelectorAll("input"); */
+/* let $btnSubmit = document.getElementById("submit-button"); */
+
+let list = [];
+
+$inputs.forEach((input) => {
+  input.addEventListener("keypress", function () {
+    this.classList.remove("is-invalid");
+  });
+});
 
 const validateInputs = () => {
-  description.value ? "" : description.classList.add("is-invalid")
-  calories.value ? "" : calories.classList.add("is-invalid")
-  carbs.value ? "" : carbs.classList.add("is-invalid")
-  protein.value ? "" : protein.classList.add("is-invalid")
+  description.value ? "" : description.classList.add("is-invalid");
+  calories.value ? "" : calories.classList.add("is-invalid");
+  carbs.value ? "" : carbs.classList.add("is-invalid");
+  protein.value ? "" : protein.classList.add("is-invalid");
 
-  if(description.value && calories.value && carbs.value && protein.value) add()
-}
+  if (description.value && calories.value && carbs.value && protein.value) {
+    add();
+  }
+};
 
 const add = () => {
   const newItem = {
     description: description.value,
     calories: parseInt(calories.value),
     carbs: parseInt(carbs.value),
-    protein: parseInt(protein.value)
-  }
-  list.push(newItem)
-  cleanInputs()
-}
+    protein: parseInt(protein.value),
+  };
 
-const updateToptals = () => {
-  let calories = 0, carbs = 0, protein = 0
+  list.push(newItem);
+  cleanInputs();
+  updateTotals();
+  renderItems();
+};
 
-  list.map(item => {
-    calories += item.calories
-    carbs += item.carbs
-    protein += item.protein
-  })
-}
+const updateTotals = () => {
+  let calories = 0,
+    carbs = 0,
+    protein = 0;
+
+  list.map((item) => {
+    calories += item.calories;
+    carbs += item.carbs;
+    protein += item.protein;
+  });
+
+  document.getElementById("totalCalories").innerText = calories;
+  document.getElementById("totalCarbs").innerText = carbs;
+  document.getElementById("totalProtein").innerText = protein;
+};
 
 const cleanInputs = () => {
-  description.value = ''
-  calories.value = ''
-  carbs.value = ''
-  protein.value = ''
-}
+  description.value = "";
+  calories.value = "";
+  carbs.value = "";
+  protein.value = "";
+};
+
+const renderItems = () => {
+  document.querySelector("tbody").innerHTML = "";
+
+  list.map((item) => {
+    const row = document.createElement("tr");
+
+    const { description, calories, carbs, protein } = item;
+    row.innerHTML = tableRow([description, calories, carbs, protein]);
+
+    document.querySelector("tbody").appendChild(row);
+  });
+};
+
+$btnSubmit.addEventListener("click", validateInputs);
