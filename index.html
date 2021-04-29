@@ -10,7 +10,7 @@
   <title>Calories Counter</title>
 </head>
 <body class="bg-dark">
-  <div class="container">
+  <div class="container" id="app">
     <div class="row justify-content-center">
       <div class="col-md-9">
         <div class="card my-5 bg-light text-center">
@@ -21,10 +21,10 @@
             <table class="table table-hover table-striped">
               <thead>
                 <tr>
-                  <th scope="col" id="namePlayer1">Player 1 <span class="text-danger"><i class="fas fa-pencil-alt"></i></span></th>
-                  <th scope="col">Player 2 <a class="text-success" href=""><i class="fas fa-pencil-alt"></i></a></th>
-                  <th scope="col">Player 3 <a href=""><i class="fas fa-pencil-alt"></i></a></th>
-                  <th scope="col">Player 4 <a class="text-warning" href=""><i class="fas fa-pencil-alt"></i></a></th>
+                  <th scope="col" @click="editNameOne">{{ playerOne }} <a class="text-danger" href="#"><i class="fas fa-pencil-alt"></i></a></th>
+                  <th scope="col">{{ playerTwo }} <a class="text-success" href="#"><i class="fas fa-pencil-alt"></i></a></th>
+                  <th scope="col">{{ playerThree }} <a href="#"><i class="fas fa-pencil-alt"></i></a></th>
+                  <th scope="col">{{ playerFour }} <a class="text-warning" href="#"><i class="fas fa-pencil-alt"></i></a></th>
                 </tr>
               </thead>
               <tbody>
@@ -40,39 +40,42 @@
             </table>
           </div>
           <div class="card-footer">
-            <div class="row mb-2">
-              <div class="col">
-                  <input type="number" min="0" class="form-control mb-2 mr-sm-2" id="player1" placeholder="0" onkeydown="removeClassPlayer1()" onchange="removeClassPlayer1()">
+            <form action="">
+              <div class="row mb-2">
+                <div class="col">
+                    <input type="number" min="0" class="form-control mb-2 mr-sm-2" id="player1" placeholder="0" onkeydown="removeClassPlayer1()" onchange="removeClassPlayer1()">
+                </div>
+                <div class="col">
+                    <input type="number" min="0" class="form-control mb-2 mr-sm-2" id="player2" placeholder="0" onkeydown="removeClassPlayer2()" onchange="removeClassPlayer2()">
+                </div>
+                <div class="col">
+                    <input type="number" min="0" class="form-control mb-2 mr-sm-2" id="player3" placeholder="0" onkeydown="removeClassPlayer3()" onchange="removeClassPlayer3()">
+                </div>
+                <div class="col">
+                    <input type="number" min="0" class="form-control mb-2 mr-sm-2" id="player4" placeholder="0" onkeydown="removeClassPlayer4()" onchange="removeClassPlayer4()">
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary mb-2" onclick="validateInputs()">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                </div>
               </div>
-              <div class="col">
-                  <input type="number" min="0" class="form-control mb-2 mr-sm-2" id="player2" placeholder="0" onkeydown="removeClassPlayer2()" onchange="removeClassPlayer2()">
-              </div>
-              <div class="col">
-                  <input type="number" min="0" class="form-control mb-2 mr-sm-2" id="player3" placeholder="0" onkeydown="removeClassPlayer3()" onchange="removeClassPlayer3()">
-              </div>
-              <div class="col">
-                  <input type="number" min="0" class="form-control mb-2 mr-sm-2" id="player4" placeholder="0" onkeydown="removeClassPlayer4()" onchange="removeClassPlayer4()">
-              </div>
-              <div class="col">
-                  <button class="btn btn-primary mb-2" onclick="validateInputs()">
-                    <i class="fas fa-plus"></i>
-                  </button>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
         <div>
-          <form class="container bg-light" id="formNamePlayer1">
+          <form class="container bg-light" v-show="isFormNameOneVisible">
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Name</label>
-              <input type="text" class="form-control" id="newNamePlayer1" aria-describedby="emailHelp">
+              <input type="text" class="form-control" v-model="playerOne">
             </div>
-            <button type="submit" class="btn btn-primary" onclick="changeName1">Submit</button>
+            <button type="submit" class="btn btn-primary" @click.prevent="confirmNameOne">Submit</button>
           </form>
         </div>
       </div>
     </div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/main.js"></script>
 </body>
