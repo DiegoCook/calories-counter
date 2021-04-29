@@ -1,103 +1,41 @@
-const compose = (...functions) => (data) =>
-  functions.reduceRight((value, func) => func(value), data);
+const player1 = document.getElementById('player1')
+const player2 = document.getElementById('player2')
+const player3 = document.getElementById('player3')
+const player4 = document.getElementById('player4')
+const namePlayer1 = document.getElementById('namePlayer1')
+const newNamePlayer1 = document.getElementById('newNamePlayer1')
+const formNamePlayer1 = document.getElementById('formNamePlayer1')
 
-const attrsToString = (obj = {}) =>
-  Object.keys(obj)
-    .map((key) => `${key}="${obj[key]}"`)
-    .join("");
+let lista = []
 
-const tagAtrrs = ({ tag, attrs }) => (content = "") =>
-  `<${tag} ${attrs && attrsToString(attrs)}>${content}</${tag}>`;
+//Crear los td y sus contenidos
+//validar input
+//remover el is-invalid
+function removeClassPlayer1() {
+    player1.classList.remove("is-invalid")
+}
+function removeClassPlayer2() {
+    player2.classList.remove("is-invalid")
+}
+function removeClassPlayer3() {
+    player3.classList.remove("is-invalid")
+}
+function removeClassPlayer4() {
+    player4.classList.remove("is-invalid")
+}
 
-const tag = (t) => {
-  if (typeof t === "string") {
-    return tagAtrrs({ tag: t });
-  } else {
-    return tagAtrrs(t);
-  }
-};
+namePlayer1.addEventListener('click', function() {
+    formNamePlayer1.style.display = 'block'
+})
 
-const tableRowTag = tag("tr");
-// const tableRow = (items) => tableRowTag(tableCells(items));
-const tableRow = (items) => compose(tableRowTag, tableCells)(items);
+function changeName1(event) {
+    event.preventDefault()
+    newPlayer1.innerHTML = newNamePlayer1.value
+    formNamePlayer1.style.display = 'none'
+}
 
-const tableCell = tag("td");
-const tableCells = (items) => items.map(tableCell).join("");
-
-let description = document.getElementById("description");
-let calories = document.getElementById("calories");
-let carbs = document.getElementById("carbs");
-let protein = document.getElementById("protein");
-/* let $inputs = document.querySelectorAll("input"); */
-/* let $btnSubmit = document.getElementById("submit-button"); */
-
-let list = [];
-
-$inputs.forEach((input) => {
-  input.addEventListener("keypress", function () {
-    this.classList.remove("is-invalid");
-  });
-});
-
-const validateInputs = () => {
-  description.value ? "" : description.classList.add("is-invalid");
-  calories.value ? "" : calories.classList.add("is-invalid");
-  carbs.value ? "" : carbs.classList.add("is-invalid");
-  protein.value ? "" : protein.classList.add("is-invalid");
-
-  if (description.value && calories.value && carbs.value && protein.value) {
-    add();
-  }
-};
-
-const add = () => {
-  const newItem = {
-    description: description.value,
-    calories: parseInt(calories.value),
-    carbs: parseInt(carbs.value),
-    protein: parseInt(protein.value),
-  };
-
-  list.push(newItem);
-  cleanInputs();
-  updateTotals();
-  renderItems();
-};
-
-const updateTotals = () => {
-  let calories = 0,
-    carbs = 0,
-    protein = 0;
-
-  list.map((item) => {
-    calories += item.calories;
-    carbs += item.carbs;
-    protein += item.protein;
-  });
-
-  document.getElementById("totalCalories").innerText = calories;
-  document.getElementById("totalCarbs").innerText = carbs;
-  document.getElementById("totalProtein").innerText = protein;
-};
-
-const cleanInputs = () => {
-  description.value = "";
-  calories.value = "";
-  carbs.value = "";
-  protein.value = "";
-};
-
-const renderItems = () => {
-  document.querySelector("tbody").innerHTML = "";
-
-  list.map((item) => {
-    const row = document.createElement("tr");
-
-    const { description, calories, carbs, protein } = item;
-    row.innerHTML = tableRow([description, calories, carbs, protein]);
-
-    document.querySelector("tbody").appendChild(row);
-  });
-};
-
-$btnSubmit.addEventListener("click", validateInputs);
+//add inputs
+//borrar imputs
+//calcular totales
+//renderizar manos
+//

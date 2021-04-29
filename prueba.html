@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Prueba</h1>
+    <button id="boton">Y???!!!</button>
+    <ul id="ul">
+
+    </ul>
+    <script>
+        const ul = document.getElementById('ul')
+        const boton = document.getElementById('boton')
+        let lista = [ 'enero', 'febrero', 'marzo']
+
+        boton.addEventListener('click', function(event) {
+           /*  event.preventDefault() */
+            lista.map(function (item) {
+                const row = document.createElement('li')
+                row.innerHTML = item
+                ul.appendChild(row)
+            })
+        })    
+
+
+
+       
+    </script>
+</body>
+</html>

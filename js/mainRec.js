@@ -1,5 +1,5 @@
-const compose = (...functions) => data =>
-  functions.reduceRight((value, func) => func(value), data)
+/* const compose = (...functions) => data =>
+  functions.reduceRight((value, func) => func(value), data) */
 
 const attrsToString = (obj = {}) => {
   const keys = Object.keys(obj)
@@ -32,13 +32,13 @@ const tableRow = items => tableRowTag(tableCells(items))
 const tableCell = tag('td')
 const tableCells = items => items.map(tableCell).join('')
 
-let description = document.getElementById('description')
+/* let description = document.getElementById('description')
 let calories = document.getElementById('calories')
 let carbs = document.getElementById('carbs')
 let protein = document.getElementById('protein')
-let list = []
+let list = [] */
 
-function removeClassDescription() {
+/* function removeClassDescription() {
   description.classList.remove("is-invalid")
 }
 function removeClassCalories() {
@@ -49,7 +49,7 @@ function removeClassCarbs() {
 }
 function removeClassProtein() {
   protein.classList.remove("is-invalid")
-}
+} */
 
 const validateInputs = () => {
   description.value ? "" : description.classList.add("is-invalid")
